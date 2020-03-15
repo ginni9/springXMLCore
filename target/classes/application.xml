@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer ">
+        <property name="locations" value="application.properties" ></property>
+    </bean>
+
+    <bean class="org.employeeDetails.converter.DateConverter" id="converter"></bean>
+
+    <bean id="department" class="org.employeeDetails.beans.Department">
+        <constructor-arg name="deptName" value="Software Engineering"></constructor-arg>
+        <constructor-arg name="createdOn">
+<!--            <bean class="org.employeeDetails.converter.DateConverter" factory-method="toDate">-->
+<!--                <constructor-arg value="dd/MM/yyyy"/>-->
+<!--                <constructor-arg value="22-12-2004"/>-->
+<!--            </bean>-->
+
+            <bean factory-bean="converter" factory-method="toDate">
+                <constructor-arg value="dd-MM-yyyy"/>
+                <constructor-arg value="22-12-2004"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean id="employee" class="org.employeeDetails.beans.Employee">
+        <constructor-arg name="name" value="${name}"></constructor-arg>
+        <constructor-arg name="age" value="${age}"></constructor-arg>
+        <constructor-arg name="salary" value="${salary}"></constructor-arg>
+        <constructor-arg ref="department"></constructor-arg>
+    </bean>
+    </beans>
+
